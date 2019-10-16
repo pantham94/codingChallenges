@@ -1,0 +1,32 @@
+package HashMap;
+import java.util.HashMap;
+import java.util.Map;
+public class HashMapBasic {
+	
+	public static void main(String[] args) {
+		HashMap<String,Integer> map=new HashMap<>();
+		printHashMap(map);
+		map.put("Angela",24);
+		map.put("Siya", 25);
+		map.put("Ashwin", 20);
+		
+		printHashMap(map);
+		map.remove("Ashwin");
+		map.put("Angela",30);
+		map.put("Sara",40);
+		if(map.containsKey("Sara")) {
+			System.out.println("Value for key Sara is "+map.get("Sara"));
+		}
+		printHashMap(map);
+		map.clear();
+		printHashMap(map);
+	}
+	public static void printHashMap(HashMap<String,Integer> map) {
+		if(map.isEmpty()) {
+			System.out.println("Map is empty");
+		} else {
+			System.out.println(map);
+		}
+	}
+
+}
