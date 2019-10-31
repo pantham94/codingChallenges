@@ -1,0 +1,66 @@
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+public class ReorderDataInLogFiles {
+	
+	public static void main(String args[]) {
+		String[] logs = {"dig1 8 1 5 1","let1 art can","dig2 3 6","let2 own kit dig","let3 art zero"};
+		String[] output = reorderLogFiles(logs);
+		for(int i=0;i<logs.length;i++) {
+			System.out.println(output[i]);
+		}
+	}
+	
+	public static String[] reorderLogFiles(String[] logs) {
+		if(logs.length==0) {
+			return logs;
+		}
+		List<String> letterLogs = new ArrayList<>();
+		List<String> digitLogs = new ArrayList<>();
+		
+		separateLetterDigits(logs,letterLogs,digitLogs);
+		
+		sortLetterLogs(letterLogs);
+		
+		return generateOutput(letterLogs,digitLogs);
+	}
+
+	public static void separateLetterDigits(String[] logs,List<String> letterLogs,List<String> digitLogs) {
+		for(String log:logs) {
+			if(Character.isDigit(log.charAt(log.length()-1))) {
+				digitLogs.add(log);
+			} else {
+				letterLogs.add(log);
+			}
+		}
+		
+	}
+
+	public static void sortLetterLogs(List<String> letterLogs) {
+		Collections.sort(letterLogs, new SortComparator());
+	}
+
+	public static String[] generateOutput(List<String> letterLogs, List<String> digitLogs) {
+		String[] output = new String[letterLogs.size()+digitLogs.size()];
+		for(int i=0;i<letterLogs.size();i++) {
+			output[i] = letterLogs.get(i);
+		}
+		for(int i=letterLogs.size();i<output.length;i++) {
+			output[i] = digitLogs.get(i-letterLogs.size());
+		}
+		return output;
+	}
+	
+
+}
+class SortComparator implements Comparator<String>{
+	public int compare(String o1,String o2) {
+		String s1 = o1.substring(o1.indexOf(" "))+1;
+		String s2 = o2.substring(o2.indexOf(" "))+1;
+		
+		return s1.equals(s2)?o1.compareTo(o2):s1.compareTo(s2);
+	}
+}
