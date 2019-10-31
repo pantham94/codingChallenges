@@ -1,0 +1,72 @@
+/*Run length encoding.. String Compression */
+package String;
+
+import java.util.Arrays;
+
+public class RunLengthEncoding {
+
+	public static void main(String[] args) {
+		String input="aaaaaoyygggggbb";
+		char[] inputChars= {'a','a','b','b','c','c','c'};
+		System.out.println("Run length encoding for the given input "+input+" is "+runLength(input));
+		System.out.println("Run length encoding for the given input "+new String(inputChars)+" is "+compressInPlace(inputChars));
+		char[] chars= {'a','a','b','b','c','c','c'};
+		System.out.println("Run length encoding for the given input "+new String(chars)+" is "+new String(compress(chars)));
+	}
+	public static char[] compress(char[] chars) {
+		int anchor=0,write=0;
+		for(int read=0;read<chars.length;read++) {
+			if(read+1==chars.length||chars[read+1]!=chars[read]) {
+				chars[write++]=chars[anchor];
+				if(read>anchor) {
+					for(char c:(""+(read-anchor+1)).toCharArray()) {
+						chars[write++]=c;
+					}
+				}
+			anchor=read+1;
+		}
+		}
+		return chars;
+	}
+	public static String runLength(String input) {
+		if(input.length()<2) {
+			return input;
+		}
+		StringBuilder output=new StringBuilder();
+		
+		for(int i=0;i<input.length();i++) {
+			int count=1;
+			while(i<input.length()-1&&input.charAt(i)==input.charAt(i+1)) {
+				i++;
+				count++;	
+			}
+			output.append(input.charAt(i));
+			output.append(count);			
+		}
+		return output.toString();
+	}
+	public static String compressInPlace(char[] chars) {
+	    int len = chars.length;
+	    if (len < 2)
+	        return chars.toString();
+	    int i = 0;
+	    int j = 0;
+	    int head = 0;
+
+	    while (j <= len) {
+	        while ((j < len) && (chars[i] == chars[j]))
+	            j++;
+	        chars[head++] = chars[i];
+	        int count = j - i;
+	        if (count > 1) {
+	            String s = Integer.toString(count);
+	            for (int k = 0; k < s.length(); k++)
+	                chars[head++] = s.charAt(k);
+	        }
+	        i = j;
+	        j++;
+	    }
+	    return new String(Arrays.copyOf(chars, head));
+	}
+
+}
