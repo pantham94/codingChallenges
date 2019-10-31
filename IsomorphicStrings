@@ -1,0 +1,51 @@
+
+import java.util.HashMap;
+
+public class IsomorphicStrings {
+
+	public static void main(String[] args) {
+		System.out.println(isomorphicStrings("egg","fof"));
+		System.out.println(isIsomorphic("egg","fof"));
+	}
+	public static boolean isomorphicStrings(String s, String t) {
+		if(s.length()!=t.length()) {
+			return false;
+		}
+		HashMap<Character,Character> map = new HashMap<>();
+		Character a;
+		Character b;
+		for(int i=0;i<s.length();i++) {
+			a = s.charAt(i);
+			b = t.charAt(i);
+			if(map.get(a)==null){
+				if(map.containsValue(b)){
+					return false;
+				}
+			map.put(a, b);
+			}
+			else if(b!=map.get(a)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	public static boolean isIsomorphic(String s, String t) {
+        char[] temp=new char[128];
+        char[] temp1=new char[128];
+        char[] S=s.toCharArray();
+        char[] T=t.toCharArray();
+        int length=s.length();
+        for(int i=0;i<length;i++){
+            if(temp[S[i]]!='\0'||temp1[T[i]]!='\0')
+            {
+                if(temp[S[i]]!=T[i])
+                    return false;
+            }else{
+                temp[S[i]]=T[i];
+                temp1[T[i]]=S[i];
+            }
+        }
+        return true;
+    }
+
+}
