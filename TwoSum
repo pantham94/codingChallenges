@@ -1,0 +1,40 @@
+import java.util.Map;
+import java.util.HashMap;
+
+public class TwoSum {
+    public static int[] twoSumBrute(int[] nums, int target) {
+        for(int i=0;i<nums.length;i++){
+            for(int j=1;j<nums.length;j++){
+                if(nums[i]+nums[j]==target&&i!=j){
+                	return new int[] {i,j};
+                }
+            }  
+        } 
+        return new int[2];
+    }
+    public static void main(String Args[]) {
+    	int[] input = new int[] {1,2,3,4};
+    	int target = 6;
+    	int[] output = new int[2];
+    	output = twoSumBrute(input,target);
+    	System.out.println(output[0]+","+output[1]);
+    	int[] output1 = new int[2];
+    	output1 = twoSumBest(input,target);
+    	System.out.println(output1[0]+","+output1[1]);
+    }
+    public static int[] twoSumBest(int[] nums, int target) {
+    		//Creating and initializing hashmap where keys are nums and values are index positions
+            Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            //checking if the complement(key) is already present in the hashmap
+            if (map.containsKey(complement)) {
+            	//returning the complement value and the index position of the nums
+                return new int[] { map.get(complement), i };
+            }
+            //putting the nums as key and the index as value
+            map.put(nums[i], i);
+        }
+        throw new IllegalArgumentException("No two sum solution");
+        }    
+}
